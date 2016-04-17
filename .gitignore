@@ -60,3 +60,16 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# emacs
+*.*~
+
+#vim
+.*.swp
+.*.swo
+
+# database file
+*.sqlite
+
+# mac dir
+.DS_Store
