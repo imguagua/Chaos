@@ -28,7 +28,8 @@ class Entity(db.Model):
 class Scene(db.Model):
     __tablename__ = 'scenes'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(String(64))
+    name = db.Column(db.String(64))
+    desc = db.Colum(db.Text)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     create_since = db.Column(db.DateTime(), default=datetime.utcnow)
 
