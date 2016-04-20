@@ -2,10 +2,10 @@
 class MudObject:
     def __init__(self, name, sight, collide = 'nothing happens',
                 usability = 'unusable'):
-        self.name = name
-        self.sight = sight
-        self.collide = collide
-        self.usability = usability
+        self.name = name #对象的名称
+        self.sight = sight #被检视的时候所回应的
+        self.collide = collide #被触碰所回应的
+        self.usability = usability #被使用时回应的
     def view(self):
         return self.sight
     def touch(self):
@@ -24,17 +24,21 @@ class MudPlayer:
         return self.name + ' move to ' + area.sight
 
     def take(self, obj):
+        """ 拿起物品，并且放入自己的背包"""
         self.inventory[obj.name] = obj
         return self.name + ' 拿起 ' + obj.name + ' 放入自己的背包'
 
     def drop(self, name):
+        """若背包中有此物品，丢弃物品"""
         if self.inventory.has_key(name):
             return self.inventory.pop(name)
 
     def say(self, what):
+        """在当前场景说话"""
         return self.name + ' says: ' + what
 
     def use(self, what):
+        """使用背包中的物品"""
         for i in self.inventory:
             print i
         if self.inventory.has_key(what):
@@ -45,8 +49,8 @@ class MudPlayer:
 
 class MudArea:
     def __init__(self, sight):
-        self.objects = {}
-        self.panorama = {}
+        self.objects = {} #场景中所具有的物品
+        self.panorama = {} #连串的景象或事情
         self.sight = sight
         self.inverted_directions = {'north':'south', 'south':'north',
                                     'east':'west', 'west':'east'}
@@ -62,23 +66,27 @@ class MudArea:
             return None
 
     def add_object(self, name, obj):
+        """ 若物品被丢到场景，则视为从背包中移除"""
         if obj != None:
                 self.objects[name] = obj
         return name + '被丢弃 ..'
 
     def get_object(self, name):
+        """若物品被捡起，则从场景中移除"""
         if self.objects.has_key(name):
             return self.objects.pop(name)
         else:
             return 'there is no ' + name + ' arround!'
 
     def touch_object(self ,name):
+        """物品被触碰"""
         if self.objects.has_key(name):
             return self.objects[name].touch()
         else:
             return 'there is no ' + name + ' arround!'
 
     def view(self, args = 'arround'):
+        """查看区域内的对象"""
         if (args !='' and args !='arround'):
             try:
                 return self.panorama[args].view()
